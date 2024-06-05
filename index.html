@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Poll</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Student Login Page -->
+    <div class="login-container" id="student-login-container">
+        <h2>Student Login</h2>
+        <form onsubmit="studentLogin(event)">
+            <label for="student-username">Username:</label>
+            <input type="text" id="student-username" name="charan" required>
+            
+            <label for="student-password">Password:</label>
+            <input type="password" id="student-password" name="charan@123" required>
+            
+            <button type="submit">Login</button>
+        </form>
+        <button type="button" onclick="showAdminLogin()">Admin Login</button>
+    </div>
+
+    <!-- Admin Login Page -->
+    <div class="login-container" id="admin-login-container">
+        <h2>Admin Login</h2>
+        <form onsubmit="adminLogin(event)">
+            <label for="admin-username">Username:</label>
+            <input type="text" id="admin-username" name="kumar" required>
+            
+            <label for="admin-password">Password:</label>
+            <input type="password" id="admin-password" name="kumar@123" required>
+            
+            <button type="submit">Login</button>
+        </form>
+        <button type="button" onclick="showStudentLogin()">Student Login</button>
+    </div>
+
+    <!-- Poll Container -->
+    <div class="poll-container" id="poll-container">
+        <h2>Campus Poll</h2>
+
+         <!-- Favorite Subject Poll -->
+         <div class="poll-section">
+            <h3>Favorite Subject</h3>
+            <div class="poll-question">
+                <p>Which is your favorite subject?</p>
+            </div>
+            <form class="poll-form" id="subject-poll">
+                <label>
+                    <input type="radio" name="subject" value="math"> Math
+                </label>
+                <label>
+                    <input type="radio" name="subject" value="science"> Science
+                </label>
+                <label>
+                    <input type="radio" name="subject" value="coding"> coding
+                </label>
+                <label>
+                    <input type="radio" name="subject" value="history"> history
+                </label>
+                <button type="button" onclick="submitPoll('subject')">Submit</button>
+            </form>
+            <div class="poll-results" id="subject-results"></div>
+        </div>
+
+        <!-- Favorite Sport Poll -->
+        <div class="poll-section">
+            <h3>Favorite Sport</h3>
+            <div class="poll-question">
+                <p>Which is your favorite sport?</p>
+            </div>
+            <form class="poll-form" id="sport-poll">
+                <label>
+                    <input type="radio" name="sport" value="football"> football
+                </label>
+                <label>
+                    <input type="radio" name="sport" value="basketball"> Basketball
+                </label>
+                <label>
+                    <input type="radio" name="sport" value="kabaddi"> Kabaddi
+                </label>
+                <label>
+                    <input type="radio" name="sport" value="cricket"> Cricket
+                </label>
+                <button type="button" onclick="submitPoll('sport')">Submit</button>
+            </form>
+            <div class="poll-results" id="sport-results"></div>
+        </div>
+
+        <!-- Favorite Food Poll -->
+        <div class="poll-section">
+            <h3>Favorite Food</h3>
+            <div class="poll-question">
+                <p>Which is your favorite food?</p>
+            </div>
+            <form class="poll-form" id="food-poll">
+                <label>
+                    <input type="radio" name="food" value="Briyani">Briyani
+                </label>
+                <label>
+                    <input type="radio" name="food" value="burger"> Burger
+                </label>
+                <label>
+                    <input type="radio" name="food" value="pizza"> Pizza
+                </label>
+                <label>
+                    <input type="radio" name="food" value="meals"> Meals
+                </label>
+                <button type="button" onclick="submitPoll('food')">Submit</button>
+            </form>
+            <div class="poll-results" id="food-results"></div>
+        </div>
+
+        <!-- Favorite Music Genre Poll -->
+        <div class="poll-section">
+            <h3>Favorite Music Genre</h3>
+            <div class="poll-question">
+                <p>Which is your favorite music genre?</p>
+            </div>
+            <form class="poll-form" id="music-poll">
+                <label>
+                    <input type="radio" name="music" value="rock"> Rock
+                </label>
+                <label>
+                    <input type="radio" name="music" value="pop"> Pop
+                </label>
+                <label>
+                    <input type="radio" name="music" value="dj"> Dj
+                </label>
+                <label>
+                    <input type="radio" name="music" value="classical"> Classical
+                </label>
+                <button type="button" onclick="submitPoll('music')">Submit</button>
+            </form>
+            <div class="poll-results" id="music-results"></div>
+        </div>
+    </div>
+
+    <!-- Admin Page -->
+    <div class="admin-container" id="admin-container">
+        <h2>Admin Dashboard</h2>
+        <div id="admin-subject-results"></div>
+        <div id="admin-sport-results"></div>
+        <div id="admin-food-results"></div>
+        <div id="admin-music-results"></div>
+    </div>
+
+    <script>
+        // Poll results counters
+        const pollResults = {
+            subject: {
+                math: 0,
+                science: 0,
+                coding: 0,
+                history: 0
+            },
+            sport: {
+                football: 0,
+                basketball: 0,
+                kabaddi: 0,
+                cricket: 0
+            },
+            food: {
+                pizza: 0,
+                burger: 0,
+                briyani: 0,
+                meals: 0
+            },
+            music: {
+                rock: 0,
+                pop: 0,
+                dj: 0,
+                classical: 0
+            }
+        };
+
+        function studentLogin(event) {
+            event.preventDefault();
+            document.getElementById('student-login-container').style.display = 'none';
+            document.getElementById('poll-container').style.display = 'block';
+        }
+
+        function adminLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+
+            // Simple admin login check (for demonstration purposes)
+            if (username === 'kumar' && password === 'kumar@123') {
+                document.getElementById('admin-login-container').style.display = 'none';
+                document.getElementById('admin-container').style.display = 'block';
+                updateAdminResults();
+            } else {
+                alert('Incorrect username or password');
+            }
+        }
+
+        function submitPoll(pollType) {
+            const options = document.getElementsByName(pollType);
+            let selectedOption;
+            for (const option of options) {
+                if (option.checked) {
+                    selectedOption = option.value;
+                    break;
+                }
+            }
+
+            if (selectedOption) {
+                pollResults[pollType][selectedOption]++;
+                const resultsDiv = document.getElementById(pollType + '-results');
+                resultsDiv.innerHTML = `<p>Thank you for voting! Your favorite ${pollType} is: <strong>${selectedOption}</strong>.</p>`;
+                updateAdminResults();
+            } else {
+                alert('Please select an option.');
+            }
+        }
+
+        function updateAdminResults() {
+            const subjectResults = document.getElementById('admin-subject-results');
+            const sportResults = document.getElementById('admin-sport-results');
+            const foodResults = document.getElementById('admin-food-results');
+            const musicResults = document.getElementById('admin-music-results');
+
+            subjectResults.innerHTML = `<h3>Subject Poll Results:</h3>
+                <p>Math: ${pollResults.subject.math}</p>
+                <p>Science: ${pollResults.subject.science}</p>
+                <p>History: ${pollResults.subject.history}</p>
+                <p>coding: ${pollResults.subject.literature}</p>`;
+
+            sportResults.innerHTML = `<h3>Sport Poll Results:</h3>
+                <p>football: ${pollResults.sport.football}</p>
+                <p>Basketball: ${pollResults.sport.basketball}</p>
+                <p>kabaddi: ${pollResults.sport.kabaddi}</p>
+                <p>Cricket: ${pollResults.sport.cricket}</p>`;
+
+            foodResults.innerHTML = `<h3>Food Poll Results:</h3>
+                <p>Pizza: ${pollResults.food.pizza}</p>
+                <p>Burger: ${pollResults.food.burger}</p>
+                <p>Briyani: ${pollResults.food.briyani}</p>
+                <p>Meals: ${pollResults.food.meals}</p>`;
+
+            musicResults.innerHTML = `<h3>Music Poll Results:</h3>
+                <p>Rock: ${pollResults.music.rock}</p>
+                <p>Pop: ${pollResults.music.pop}</p>
+                <p>Dj: ${pollResults.music.dj}</p>
+                <p>Classical: ${pollResults.music.classical}</p>`;
+        }
+
+        function showAdminLogin() {
+            document.getElementById('student-login-container').style.display = 'none';
+            document.getElementById('admin-login-container').style.display = 'block';
+        }
+
+        function showStudentLogin() {
+            document.getElementById('admin-login-container').style.display = 'none';
+            document.getElementById('student-login-container').style.display = 'block';
+        }
+
+        // Initial display setup
+        document.getElementById('student-login-container').style.display = 'block';
+        document.getElementById('admin-login-container').style.display = 'none';
+        document.getElementById('poll-container').style.display = 'none';
+        document.getElementById('admin-container').style.display = 'none';
+    </script>
+</body>
+</html>
